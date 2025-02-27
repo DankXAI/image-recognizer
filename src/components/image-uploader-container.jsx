@@ -118,7 +118,7 @@ export default function ImageUploaderContainer() {
       >
         <option value={1}>Wrong Item</option>
         <option value={2}>Missing Item</option>
-        <option value={3}>Item</option>
+        <option value={3}>Damaged Item</option>
       </select>
 
       <div className="h-[650px] w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col">
