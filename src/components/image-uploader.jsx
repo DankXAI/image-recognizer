@@ -59,7 +59,7 @@ export default function ImageUploader({
       </section>
 
       <section>
-        <p className="text-base font-medium max-h-60 max-w-[475px] overflow-auto">
+        <p className="text-white sm:text-black sm:text-base text-sm font-medium max-h-60 max-w-[475px] overflow-auto">
           {aiResponse}
         </p>
       </section>
