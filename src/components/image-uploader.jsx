@@ -104,10 +104,10 @@ const AddImageButton = ({ handleImageChange, isUploading, buttonId }) => {
         <Image
           src={PlusIcon}
           alt="+"
-          className="sm:h-[18px] sm:w-[18px] h-4 w-4"
+          className="sm:h-[18px] sm:w-[18px] h-4 w-4 opacity-50"
         />
 
-        <p>Upload {buttonId}</p>
+        <p className="opacity-50">Upload {buttonId}</p>
       </section>
     </label>
   );
