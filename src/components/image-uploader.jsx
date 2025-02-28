@@ -22,12 +22,18 @@ export default function ImageUploader({
       <section className="flex items-center justify-evenly w-full pt-6">
         {images.map((image, index) =>
           image === null ? (
-            <AddImageButton
-              key={index}
-              handleImageChange={(e) => handleImageChange(e, index)}
-              isUploading={isUploading}
-              buttonId={index + 1}
-            />
+            <section className="flex flex-col items-center gap-1">
+              <label>
+                {index === 0 ? "Picker" : index === 1 ? "Packer" : "Customer"}
+              </label>
+
+              <AddImageButton
+                key={index}
+                handleImageChange={(e) => handleImageChange(e, index)}
+                isUploading={isUploading}
+                buttonId={index + 1}
+              />
+            </section>
           ) : (
             <div
               key={index}
@@ -58,7 +64,9 @@ export default function ImageUploader({
         )}
       </section>
 
-      <p className="text-[0.725rem] font-normal text-red-600">*Image size must be below 100KB</p>
+      <p className="text-[0.725rem] font-normal text-red-600">
+        *Image size must be below 100KB
+      </p>
 
       <section>
         <p className="text-white sm:text-black sm:text-base text-sm font-medium max-h-60 max-w-[475px] overflow-auto">
