@@ -66,13 +66,6 @@ export default function ImageUploaderContainer() {
         setSelectedImage(null);
       }
     }
-
-    // e.stopPropagation();
-
-    // setImages((prev) =>
-    //   prev.map((photo) => (!!photo && photo.imgUrl === imgUrl ? null : photo))
-    // );
-    // selectedImage === imgUrl && setSelectedImage("");
   };
 
   const onSubmit = async (event) => {
@@ -94,8 +87,8 @@ export default function ImageUploaderContainer() {
       const res = await submitImages(payload);
       if (res.code < 400) {
         toast.success("Images submitted successfully!");
-        setImages(Array(3).fill(null));
-        setSelectedImage("");
+        // setImages(Array(3).fill(null));
+        // setSelectedImage("");
         setAiResponse(res.data);
       } else {
         toast.error("Failed in submitting images");
@@ -109,19 +102,19 @@ export default function ImageUploaderContainer() {
     }
   };
   return (
-    <>
+    <div className="flex flex-col items-center gap-4 font-semibold text-sm">
       <select
         name="promptNumber"
         id="promptNumber"
         onChange={onPromptSelection}
-        className="absolute top-28"
+        className="px-3 py-2 rounded-lg "
       >
         <option value={1}>Wrong Item</option>
         <option value={2}>Missing Item</option>
         <option value={3}>Damaged Item</option>
       </select>
 
-      <div className="h-[650px] w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col">
+      <div className="sm:h-[75svh] h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col">
         <section className="h-[210px] w-full bg-gray-200 rounded-2xl flex items-center justify-center py-3">
           <ImagePreview selectedImage={selectedImage} />
         </section>
@@ -141,6 +134,6 @@ export default function ImageUploaderContainer() {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
