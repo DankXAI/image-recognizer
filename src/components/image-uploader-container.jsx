@@ -114,7 +114,7 @@ export default function ImageUploaderContainer() {
         <option value={3}>Damaged Item</option>
       </select>
 
-      <div className="sm:h-[75svh] h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col">
+      <div className="sm:h-[75svh] sm:max-h-[780px] overflow-y-auto h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col">
         <section className="h-[210px] w-full bg-gray-200 rounded-2xl flex items-center justify-center py-3">
           <ImagePreview selectedImage={selectedImage} />
         </section>
