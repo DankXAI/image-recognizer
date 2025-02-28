@@ -17,9 +17,9 @@ export default function ImageUploader({
   return (
     <form
       onSubmit={onSubmit}
-      className="h-full flex flex-col items-center justify-between"
+      className="h-full flex flex-col items-center justify-between gap-y-4 overflow-auto"
     >
-      <section className="flex items-center justify-between w-full pt-6">
+      <section className="flex items-center justify-evenly w-full pt-6">
         {images.map((image, index) =>
           image === null ? (
             <AddImageButton
@@ -33,7 +33,7 @@ export default function ImageUploader({
               key={index}
               onClick={() => onImageSelection(image.imgUrl)}
               className={cn(
-                "rounded-lg border-2 border-gray-400 border-dashed sm:w-[120px] w-20 h-20 flex items-center justify-center p-1 relative",
+                "rounded-lg border-2 border-gray-400 border-dashed sm:w-[120px] sm:h-[120px] w-20 h-20 flex items-center justify-center p-1 relative",
                 selectedImage === image.imgUrl &&
                   "border-solid border-[#3d206e] border-[3px]"
               )}
@@ -57,6 +57,8 @@ export default function ImageUploader({
           )
         )}
       </section>
+
+      <p className="text-[0.725rem] font-normal text-red-600">*Image size must be below 100KB</p>
 
       <section>
         <p className="text-white sm:text-black sm:text-base text-sm font-medium max-h-60 max-w-[475px] overflow-auto">
@@ -90,7 +92,7 @@ const AddImageButton = ({ handleImageChange, isUploading, buttonId }) => {
         disabled={isUploading}
       />
 
-      <section className="sm:text-sm text-xs font-semibold flex flex-col items-center justify-center gap-y-1 text-center p-1 rounded-lg cursor-pointer border-2 border-gray-400 bg-white border-dashed sm:w-[120px] w-20 h-[80px]">
+      <section className="sm:text-sm text-xs font-semibold flex flex-col items-center justify-center gap-y-1 text-center p-1 rounded-lg cursor-pointer border-2 border-gray-400 bg-white border-dashed sm:w-[120px] sm:h-[120px] w-20 h-20">
         <Image
           src={PlusIcon}
           alt="+"
