@@ -10,7 +10,7 @@ export default function ImageUploaderContainer() {
   const [images, setImages] = useState(Array(3).fill(null));
   const [isUploading, setIsUploading] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
-  const [promptNumber, setPromptNumber] = useState(1);
+  const [promptNumber, setPromptNumber] = useState("1");
   const [aiResponse, setAiResponse] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -80,7 +80,10 @@ export default function ImageUploaderContainer() {
       .filter((img) => img !== null)
       .map((img) => img.imgUrl);
 
-    const payload = { images: imageUrls, promptNumber };
+    const payload = {
+      images: imageUrls,
+      promptNumber: promptNumber.toString(),
+    };
     try {
       setIsSubmitting(true);
 
@@ -107,13 +110,13 @@ export default function ImageUploaderContainer() {
         name="promptNumber"
         id="promptNumber"
         value={promptNumber}
-        defaultValue={1}
+        defaultValue="1"
         onChange={onPromptSelection}
         className="px-3 py-2 rounded-lg "
       >
-        <option value={1}>Wrong Item</option>
-        <option value={2}>Missing Item</option>
-        <option value={3}>Damaged Item</option>
+        <option value="1">Wrong Item</option>
+        <option value="2">Missing Item</option>
+        <option value="3">Damaged Item</option>
       </select>
 
       <div className="sm:h-[75svh] sm:max-h-[780px] overflow-y-auto h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col">
