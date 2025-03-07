@@ -22,7 +22,7 @@ export default function ImageUploader({
       <section className="flex items-center justify-evenly w-full pt-6">
         {images.map((image, index) =>
           image === null ? (
-            <section className="flex flex-col items-center gap-1">
+            <section key={index} className="flex flex-col items-center gap-1">
               <label>
                 {index === 0 ? "Picker" : index === 1 ? "Packer" : "Customer"}
               </label>
@@ -35,31 +35,35 @@ export default function ImageUploader({
               />
             </section>
           ) : (
-            <div
-              key={index}
-              onClick={() => onImageSelection(image.imgUrl)}
-              className={cn(
-                "rounded-lg border-2 border-gray-400 border-dashed sm:w-[120px] sm:h-[120px] w-20 h-20 flex items-center justify-center p-1 relative",
-                selectedImage === image.imgUrl &&
-                  "border-solid border-[#3d206e] border-[3px]"
-              )}
-            >
-              <Image
-                src={image.imgUrl}
-                height={80}
-                width={80}
-                className="h-full w-fit rounded-lg"
-                alt="img"
-              />
-
-              <button
-                type="button"
-                onClick={(e) => deletePhoto(e, image.imgUrl)}
-                className="absolute w-6 h-6 bg-slate-200 border-black border-[0.5px] -bottom-[6px] -right-[5px] flex items-center justify-center rounded-full hover:scale-[1.2] transition"
+            <section key={index} className="flex flex-col items-center gap-1">
+              <label>
+                {index === 0 ? "Picker" : index === 1 ? "Packer" : "Customer"}
+              </label>
+              <div
+                onClick={() => onImageSelection(image.imgUrl)}
+                className={cn(
+                  "rounded-lg border-2 border-gray-400 border-dashed sm:w-[120px] sm:h-[120px] w-20 h-20 flex items-center justify-center p-1 relative",
+                  selectedImage === image.imgUrl &&
+                    "border-solid border-[#3d206e] border-[3px]"
+                )}
               >
-                <span className="text-xs">✕</span>
-              </button>
-            </div>
+                <Image
+                  src={image.imgUrl}
+                  height={80}
+                  width={80}
+                  className="h-full w-fit rounded-lg"
+                  alt="img"
+                />
+
+                <button
+                  type="button"
+                  onClick={(e) => deletePhoto(e, image.imgUrl)}
+                  className="absolute w-6 h-6 bg-slate-200 border-black border-[0.5px] -bottom-[6px] -right-[5px] flex items-center justify-center rounded-full hover:scale-[1.2] transition"
+                >
+                  <span className="text-xs">✕</span>
+                </button>
+              </div>
+            </section>
           )
         )}
       </section>
