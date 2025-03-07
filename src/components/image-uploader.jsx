@@ -1,118 +1,142 @@
-import React from "react";
-import Image from "next/image";
-import { cn } from "@/utils";
-import PlusIcon from "../../public/images/plus-icon.svg";
+"use client";
 
-export default function ImageUploader({
-  images,
-  handleImageChange,
-  isUploading,
-  onImageSelection,
-  deletePhoto,
-  onSubmit,
-  selectedImage,
-  isSubmitting,
-  aiResponse,
-}) {
+import React, { useState } from "react";
+import ImagePreview from "./image-preview";
+import toast from "react-hot-toast";
+import { submitImages, uploadImages } from "@/api.js";
+import ImageUploader from "./image-uploader.jsx";
+
+export default function ImageUploaderContainer() {
+  const [images, setImages] = useState(Array(3).fill(null));
+  const [isUploading, setIsUploading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [promptNumber, setPromptNumber] = useState("1");
+  const [aiResponse, setAiResponse] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleImageChange = async (event, index) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setIsUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const res = await uploadImages(formData);
+      const imageUrl = res.data;
+
+      const newImages = [...images];
+      newImages[index] = { imgUrl: imageUrl };
+      setImages(newImages);
+
+      onImageSelection(imageUrl);
+
+      event.target.value = "";
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      toast.error("Error uploading image");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const onImageSelection = (imgUrl) => {
+    setSelectedImage(imgUrl);
+  };
+
+  const onPromptSelection = (e) => {
+    const value = e.target.value;
+    setPromptNumber(value);
+  };
+
+  const deletePhoto = (e, imgUrl) => {
+    e.stopPropagation();
+
+    const indexToDelete = images.findIndex(
+      (img) => img && img.imgUrl === imgUrl
+    );
+    if (indexToDelete !== -1) {
+      const newImages = [...images];
+      newImages[indexToDelete] = null;
+      setImages(newImages);
+
+      if (selectedImage === imgUrl) {
+        setSelectedImage(null);
+      }
+    }
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    if (images.length === 0) {
+      alert("Please select at least one image");
+      return;
+    }
+
+    const imageUrls = images
+      .filter((img) => img !== null)
+      .map((img) => img.imgUrl);
+
+    const payload = { images: imageUrls, promptNumber };
+    console.log("🚀 ~ onSubmit ~ payload:", payload);
+    try {
+      setIsSubmitting(true);
+
+      const res = await submitImages(payload);
+      if (res.code < 400) {
+        toast.success("Images submitted successfully!");
+        // setImages(Array(3).fill(null));
+        // setSelectedImage("");
+        setAiResponse(res.data);
+      } else {
+        toast.error("Failed in submitting images");
+        console.error("Failed in submitting images: ", res);
+      }
+    } catch (error) {
+      console.log("Error in submitting images: ", error);
+      toast.error("Error submitting images");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
-    <form
-      onSubmit={onSubmit}
-      className="h-full flex flex-col items-center justify-between gap-y-4 overflow-auto"
-    >
-      <section className="flex items-center justify-evenly w-full pt-6">
-        {images.map((image, index) =>
-          image === null ? (
-            <section key={index} className="flex flex-col items-center gap-1">
-              <label>
-                {index === 0 ? "Picker" : index === 1 ? "Packer" : "Customer"}
-              </label>
-
-              <AddImageButton
-                key={index}
-                handleImageChange={(e) => handleImageChange(e, index)}
-                isUploading={isUploading}
-                buttonId={index + 1}
-              />
-            </section>
-          ) : (
-            <section key={index} className="flex flex-col items-center gap-1">
-              <label>
-                {index === 0 ? "Picker" : index === 1 ? "Packer" : "Customer"}
-              </label>
-              <div
-                onClick={() => onImageSelection(image.imgUrl)}
-                className={cn(
-                  "rounded-lg border-2 border-gray-400 border-dashed sm:w-[120px] sm:h-[120px] w-20 h-20 flex items-center justify-center p-1 relative",
-                  selectedImage === image.imgUrl &&
-                    "border-solid border-[#3d206e] border-[3px]"
-                )}
-              >
-                <Image
-                  src={image.imgUrl}
-                  height={80}
-                  width={80}
-                  className="h-full w-fit rounded-lg"
-                  alt="img"
-                />
-
-                <button
-                  type="button"
-                  onClick={(e) => deletePhoto(e, image.imgUrl)}
-                  className="absolute w-6 h-6 bg-slate-200 border-black border-[0.5px] -bottom-[6px] -right-[5px] flex items-center justify-center rounded-full hover:scale-[1.2] transition"
-                >
-                  <span className="text-xs">✕</span>
-                </button>
-              </div>
-            </section>
-          )
-        )}
-      </section>
-
-      <p className="text-[0.725rem] font-normal text-red-600">
-        *Image size must be below 100KB
-      </p>
-
-      <section>
-        <p className="text-white sm:text-black sm:text-base text-sm font-medium max-h-60 max-w-[475px] overflow-auto">
-          {aiResponse}
-        </p>
-      </section>
-
-      <button
-        type="submit"
-        className="w-full h-10 bg-[#512771] mt-5 text-base font-semibold text-white rounded-lg shadow-lg hover:opacity-85 transition-all duration-300 flex items-center justify-center text-center disabled:opacity-75 disabled:cursor-not-allowed cursor-pointer"
-        onClick={onSubmit}
-        disabled={
-          images.every((img) => !img?.imgUrl) || isUploading || isSubmitting
-        }
+    <div className="flex flex-col items-center gap-4 font-semibold text-sm">
+      <select
+        name="promptNumber"
+        id="promptNumber"
+        value={promptNumber}
+        defaultValue="1"
+        onChange={onPromptSelection}
+        className="px-3 py-2 rounded-lg "
       >
-        {!isSubmitting ? "Submit" : "Submittng..."}
-      </button>
-    </form>
+        <option value="1">Wrong Item</option>
+        <option value="2">Missing Item</option>
+        <option value="3">Damaged Item</option>
+      </select>
+
+      <div className="sm:h-[75svh] sm:max-h-[780px] overflow-y-auto h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col">
+        <section className="h-[210px] w-full bg-gray-200 rounded-2xl flex items-center justify-center py-3">
+          <ImagePreview selectedImage={selectedImage} />
+        </section>
+
+        <div className="flex-1">
+          <ImageUploader
+            images={images}
+            onImageChange={handleImageChange}
+            onImageSelection={onImageSelection}
+            deletePhoto={deletePhoto}
+            onSubmit={onSubmit}
+            selectedImage={selectedImage}
+            handleImageChange={handleImageChange}
+            isUploading={isUploading}
+            isSubmitting={isSubmitting}
+            aiResponse={aiResponse}
+          />
+        </div>
+      </div>
+    </div>
   );
 }
-
-const AddImageButton = ({ handleImageChange, isUploading, buttonId }) => {
-  return (
-    <label>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-        className="hidden"
-        name={`img-${buttonId}`}
-        disabled={isUploading}
-      />
-
-      <section className="sm:text-sm text-xs font-semibold flex flex-col items-center justify-center gap-y-1 text-center p-1 rounded-lg cursor-pointer border-2 border-gray-400 bg-white border-dashed sm:w-[120px] sm:h-[120px] w-20 h-20">
-        <Image
-          src={PlusIcon}
-          alt="+"
-          className="sm:h-[18px] sm:w-[18px] h-4 w-4 opacity-50"
-        />
-
-        <p className="opacity-50">Upload {buttonId}</p>
-      </section>
-    </label>
-  );
-};
