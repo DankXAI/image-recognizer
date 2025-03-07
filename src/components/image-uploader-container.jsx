@@ -106,6 +106,8 @@ export default function ImageUploaderContainer() {
       <select
         name="promptNumber"
         id="promptNumber"
+        value={promptNumber}
+        defaultValue={1}
         onChange={onPromptSelection}
         className="px-3 py-2 rounded-lg "
       >
