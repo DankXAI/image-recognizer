@@ -119,24 +119,60 @@ export default function ImageUploaderContainer() {
         <option value="3">Damaged Item</option>
       </select>
 
-      <div className="sm:h-[75svh] sm:max-h-[780px] overflow-y-auto h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col">
-        <section className="h-[210px] w-full bg-gray-200 rounded-2xl flex items-center justify-center py-3">
-          <ImagePreview selectedImage={selectedImage} />
-        </section>
+      <div className="flex items-center gap-x-10">
+        <div className="sm:h-[75svh] sm:max-h-[780px] overflow-y-auto h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col">
+          <section className="h-[210px] w-full bg-gray-200 rounded-2xl flex items-center justify-center py-3">
+            <ImagePreview selectedImage={selectedImage} />
+          </section>
 
-        <div className="flex-1">
-          <ImageUploader
-            images={images}
-            onImageChange={handleImageChange}
-            onImageSelection={onImageSelection}
-            deletePhoto={deletePhoto}
-            onSubmit={onSubmit}
-            selectedImage={selectedImage}
-            handleImageChange={handleImageChange}
-            isUploading={isUploading}
-            isSubmitting={isSubmitting}
-            aiResponse={aiResponse}
-          />
+          <div className="flex-1">
+            <ImageUploader
+              images={images}
+              onImageChange={handleImageChange}
+              onImageSelection={onImageSelection}
+              deletePhoto={deletePhoto}
+              onSubmit={onSubmit}
+              selectedImage={selectedImage}
+              handleImageChange={handleImageChange}
+              isUploading={isUploading}
+              isSubmitting={isSubmitting}
+              aiResponse={aiResponse}
+            />
+          </div>
+        </div>
+
+        <div className="sm:h-[75svh] sm:max-h-[780px] overflow-y-auto h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col text-base gap-y-4">
+          <p className="font-semibold">What Does It Do?</p>
+          <p className="font-medium">
+            AI-powered Order Accuracy Checker is a rule-based AI system that
+            quickly validates customer support tickets by analyzing proofs from
+            Dark Store, Delivery, and Customers. It provides a clear,
+            data-driven assessment to help agents resolve issues faster,
+            ultimately boosting customer satisfaction.
+          </p>
+
+          <p className="font-semibold">How Does It Work?</p>
+          <p className="font-medium">
+            When a ticket is raised for issues like wrong, missing, or damaged
+            items, the system compares proofs submitted by the Dark Store,
+            Delivery Partner, and Customer. It then outputs an explanation with
+            a confidence score to guide swift resolution.
+          </p>
+
+          <p className="font-semibold">How it can be Implemented?</p>
+          <p className="font-medium">
+            The prototype demonstrates how an AI-driven post-order support
+            system can work. Key considerations include:
+          </p>
+          <ul className="list-disc pl-5">
+            <li>Standardizing clear proof submissions from all parties.</li>
+            <li>Addressing issues with poor quality or ambiguous images.</li>
+            <li>Balancing automation with human review for complex cases.</li>
+          </ul>
+          <p className="font-medium">
+            This approach can significantly improve trust and reduce resolution
+            times.
+          </p>
         </div>
       </div>
     </div>
