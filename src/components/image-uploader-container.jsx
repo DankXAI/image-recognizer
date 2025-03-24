@@ -80,6 +80,10 @@ export default function ImageUploaderContainer() {
       .filter((img) => img !== null)
       .map((img) => img.imgUrl);
 
+    const temp = imageUrls[0];
+    imageUrls[0] = imageUrls[1];
+    imageUrls[1] = temp;
+
     const payload = {
       images: imageUrls,
       promptNumber: promptNumber.toString(),
@@ -141,9 +145,9 @@ export default function ImageUploaderContainer() {
           </div>
         </div>
 
-        <div className="sm:h-[75svh] sm:max-h-[780px] overflow-y-auto h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col text-base gap-y-3">
+        <div className="sm:h-[62svh] sm:max-h-[780px] overflow-y-auto h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col text-base gap-y-3">
           <p className="font-semibold">What Does It Do?</p>
-          <p className="font-medium">
+          <p className="font-medium text-sm">
             AI-powered Order Accuracy Checker is a rule-based AI system that
             quickly validates customer support tickets by analyzing proofs from
             Dark Store, Delivery, and Customers. It provides a clear,
@@ -152,7 +156,7 @@ export default function ImageUploaderContainer() {
           </p>
 
           <p className="font-semibold">How Does It Work?</p>
-          <p className="font-medium">
+          <p className="font-medium text-sm">
             When a ticket is raised for issues like wrong, missing, or damaged
             items, the system compares proofs submitted by the Dark Store,
             Delivery Partner, and Customer. It then outputs an explanation with
@@ -160,16 +164,16 @@ export default function ImageUploaderContainer() {
           </p>
 
           <p className="font-semibold">How it can be Implemented?</p>
-          <p className="font-medium">
+          <p className="font-medium text-sm">
             The prototype demonstrates how an AI-driven post-order support
             system can work. Key considerations include:
           </p>
-          <ul className="list-disc pl-5 font-medium">
+          <ul className="list-disc pl-5 font-medium text-sm">
             <li>Standardizing clear proof submissions from all parties.</li>
             <li>Addressing issues with poor quality or ambiguous images.</li>
             <li>Balancing automation with human review for complex cases.</li>
           </ul>
-          <p className="font-medium">
+          <p className="font-medium text-sm">
             This approach can significantly improve trust and reduce resolution
             times.
           </p>
