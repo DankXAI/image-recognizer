@@ -164,7 +164,7 @@ export default function ImageUploaderContainer() {
             The prototype demonstrates how an AI-driven post-order support
             system can work. Key considerations include:
           </p>
-          <ul className="list-disc pl-5">
+          <ul className="list-disc pl-5 font-medium">
             <li>Standardizing clear proof submissions from all parties.</li>
             <li>Addressing issues with poor quality or ambiguous images.</li>
             <li>Balancing automation with human review for complex cases.</li>
