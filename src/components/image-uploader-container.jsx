@@ -141,7 +141,7 @@ export default function ImageUploaderContainer() {
           </div>
         </div>
 
-        <div className="sm:h-[75svh] sm:max-h-[780px] overflow-y-auto h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col text-base gap-y-4">
+        <div className="sm:h-[75svh] sm:max-h-[780px] overflow-y-auto h-full sm:w-[500px] sm:bg-white sm:rounded-3xl p-4 flex flex-col text-base gap-y-3">
           <p className="font-semibold">What Does It Do?</p>
           <p className="font-medium">
             AI-powered Order Accuracy Checker is a rule-based AI system that
